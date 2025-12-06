@@ -27,7 +27,20 @@ The report below is inclusive of the data provided by the BOTSV3 dataset, availa
 
 
 ## SOC Roles & Incident Handling Reflection 
+
+A SOC team is ‘a centralised team responsible for improving an organisation’s cybersecurity posture by preventing, detecting and responding to threats.’ [1]  A SOC consists of a combination of cybersecurity professionals, including three tiers of cybersecurity analysts whos roles are as follows:
+<ul>
+<li> <b> Tier 1 - Triage: </b> Initial monitoring and prioritising of alerts. Gathering preliminary evidence to enrich alert data with context by correlating events from multiple platforms, [2] which can then be escalated to tier 2 analysts. [3] </li>
+<li> <b> Tier 2 -  Incident Responder: </b> Core in-depth investigation of alerts escalated by the tier 1 analyst. Identifies the affected systems and scope of the attack and conducts comprehensive log analysis and forensic examination. Implementing appropriate containment/ remediation strategies. </li>
+<li> <b> Tier 3  - Threat Hunter: </b> Takes a proactive approach searching for suspicious activity before it becomes an incident and leading network testing such as vulnerability and PEN testing. Also serves as an escalation point for tier 2 analysts analysing complex incidents. </li>
+</ul>
+
 ## Installation & Data Preparation
 ## Conclusion
 ## References 
+
+[1] https://www.microsoft.com/en-us/security/business/security-101/what-is-a-security-operations-center-soc <br>
+[2] https://radiantsecurity.ai/learn/soc-tier-1-vs-tier-2-vs-tier-3/  <br>
+[3] https://www.crowdstrike.com/en-us/cybersecurity-101/next-gen-siem/security-operations-center-soc/ 
+
 
