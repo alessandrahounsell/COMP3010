@@ -4,14 +4,13 @@
 
 This report documents the simulated security incident within the fictional brewing company named “Frothly”. In this writeup I will be analysing the collections of logs provided in the publicly available dataset: BOTSV3 to investigate the attack following the cyber kill chain methodology.
 
-#### Objectives:
+### Objectives:
 <ol>
 <li> Identify the root cause and initial vector of the compromise. </li>
 <li> Figure out the scope of the compromise, is the whole network affected or just specific machines. </li>
 <li> Track the attack's progression through the system identifying the tactics, techniques and procedures used (TTPs). </li>
 <li> Determine the impact including if any sensitive customer or company data has been successfully exfiltrated from the system. </li>
 </ol>
-<br>
 
 ### Scope:
 
@@ -28,19 +27,41 @@ The report below is inclusive of the data provided by the BOTSV3 dataset, availa
 
 ## SOC Roles & Incident Handling Reflection 
 
-A SOC team is ‘a centralised team responsible for improving an organisation’s cybersecurity posture by preventing, detecting and responding to threats.’ [1]  A SOC consists of a combination of cybersecurity professionals, including three tiers of cybersecurity analysts whos roles are as follows:
+### SOC Roles
+
+A SOC team is ‘a centralised team responsible for improving an organisation’s cybersecurity posture by preventing, detecting and responding to threats.’ [1]  A SOC consists of a combination of cybersecurity professionals, including three tiers of cybersecurity analysts whose roles are as follows:
 <ul>
 <li> <b> Tier 1 - Triage: </b> Initial monitoring and prioritising of alerts. Gathering preliminary evidence to enrich alert data with context by correlating events from multiple platforms, [2] which can then be escalated to tier 2 analysts. [3] </li>
 <li> <b> Tier 2 -  Incident Responder: </b> Core in-depth investigation of alerts escalated by the tier 1 analyst. Identifies the affected systems and scope of the attack and conducts comprehensive log analysis and forensic examination. Implementing appropriate containment/ remediation strategies. </li>
 <li> <b> Tier 3  - Threat Hunter: </b> Takes a proactive approach searching for suspicious activity before it becomes an incident and leading network testing such as vulnerability and PEN testing. Also serves as an escalation point for tier 2 analysts analysing complex incidents. </li>
 </ul>
 
+### NIST Incident Response Framework
+
+The NIST incident response framework is a four-phase lifecycle, found in NIST’s Special Publication 800-61 [4], intended to help organisations learn how to protect themselves against security incidents. [5] The four stages are as follows: preparation, detection/analysis, containment/eradication, and recovery.
+
+<ol>
+<li><b> Preparation: </b> in this phase, incident response plans are generated and CSIRT teams with specified responsibilities are defined to ensure incidents can be effectively prevented and responded to. Proper infrastructure should be set up to enable incident detection and investigation as well as the collection and preservation of evidence. [6] Threat intelligence is crucial to these plans so tier 3 analysts will be vital for this phase. </li>
+<li><b>
+Detection / Analysis: </b> this phase is the job of the tier 1 analyst and involves collecting data from IT systems, security tools, publicly available information [5] to pinpoint precursors and indicators of a security incident. The signs should then be analysed to determine if they are part of an attack or false positives, and then scored so the incident can be prioritised based on the impact it will have on the company. </li>
+<li><b> Containment / Eradication: </b> This phase should be primarily undertaken by a tier 2 analyst with help from a tier 3 analyst in complex cases. Containment is the process of halting the effects of the attack before it causes major or further damage. This usually includes identifying and blocking communication from the attacker’s IP. Once the incident has been contained elements of the incident should be eradicated from affected environments. The systems should be restored quickly to minimise disruption. Logs and events from the incident should be kept for further investigation and to help plan for future attacks. </li>
+<li><b> Recovery / Post Incident: </b> This is the phase where reflection should happen and lessons should be learnt. An overview of the incident should be done to determine how well the IR team did, whether the procedures in place were followed and sufficient. And also to analyse what can be done differently and which indicators can be looked into to create a better security posture for the company in the future. [6] </li>
+</ol>
+
+
+
 ## Installation & Data Preparation
 ## Conclusion
 ## References 
 
+06/12 <br>
 [1] https://www.microsoft.com/en-us/security/business/security-101/what-is-a-security-operations-center-soc <br>
 [2] https://radiantsecurity.ai/learn/soc-tier-1-vs-tier-2-vs-tier-3/  <br>
-[3] https://www.crowdstrike.com/en-us/cybersecurity-101/next-gen-siem/security-operations-center-soc/ 
+[3] https://www.crowdstrike.com/en-us/cybersecurity-101/next-gen-siem/security-operations-center-soc/ <br>
+07/12 <br>
+[4]  https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-61r2.pdf <br>
+[5] https://www.cynet.com/incident-response/nist-incident-response/ <br>
+[6] https://www.crowdstrike.com/en-gb/cybersecurity-101/incident-response/incident-response-steps/ <br>
+
 
 
