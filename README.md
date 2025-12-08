@@ -51,6 +51,49 @@ Detection / Analysis: </b> this phase is the job of the tier 1 analyst and invol
 
 
 ## Installation & Data Preparation
+
+## BOTSv3 200-level Questions
+
+Q1.List out the IAM users that accessed an AWS service (successfully or unsuccessfully) in Frothly's AWS environment? <br>
+bstoll,btun,splunk_access,web_admin
+
+
+
+Q2.What field would you use to alert that AWS API activity has occurred without MFA? <br> userIdentity.sessionContext.attributes.mfaAuthenticated
+
+
+
+Q3.What is the processor number used on the web servers? <br>
+E5-2676
+
+
+
+Q4.Bud accidentally makes an S3 bucket publicly accessible. What is the event ID of the API call that enabled public access? <br>
+ab45689d-69cd-41e7-8705-5350402cf7ac
+
+
+
+Q5. What is Bud's username? <br>
+bstoll
+
+
+Q6.What is the name of the S3 bucket that was made publicly accessible? <br> 
+frothlywebcode
+
+
+Q7. What is the name of the text file that was successfully uploaded into the S3 bucket while it was publicly accessible? <br> 
+OPEN_BUCKET_PLEASE_FIX.txt
+
+
+
+
+Q8. What keywords can you start your search with to help identify what data sources can help you with this? <br>
+BSTOLL-L.froth.ly
+
+
+
+
+
 ## Conclusion
 ## References 
 
