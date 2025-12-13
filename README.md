@@ -52,6 +52,13 @@ Detection / Analysis: </b> this phase is the job of the tier 1 analyst and invol
 
 ## Installation & Data Preparation
 
+## Incident Timeline
+
+| Time                | Event   |
+| --------            | ------- |
+| 20/8/18 2:01:46 PM  | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration.   |
+| 20/8/18 2:03:46 PM  | An external party such as a security researcher or ethical hacker uploads the text file: OPEN_BUCKET_PLEASE_FIX.txt to warn the organisation of the leak.   |
+
 ## BOTSv3 200-level Questions
 
 Q1.List out the IAM users that accessed an AWS service (successfully or unsuccessfully) in Frothly's AWS environment? <br>
