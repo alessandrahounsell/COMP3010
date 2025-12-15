@@ -54,10 +54,24 @@ Detection / Analysis: </b> this phase is the job of the tier 1 analyst and invol
 
 ## Incident Timeline
 
-| Time                | Event   |
-| --------            | ------- |
-| 20/8/18 2:01:46 PM  | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration.   |
-| 20/8/18 2:03:46 PM  | An external party such as a security researcher or ethical hacker uploads the text file: OPEN_BUCKET_PLEASE_FIX.txt to warn the organisation of the leak.   |
+| Time (Adjusted to UTC) | Event   |
+| --------               | ------- |
+| 09:16:55               | Initial compromise: Bud receives an email notification from AWS Support after the IAM user account web_admin is compromised due to committing the access/ security keys to a public GitHub repository. The adversary gains initial access to AWS. |
+| 09:16:12 – 09:27:07    | Adversary reconnaissance: The attacker uses the leaked access key to make repeated attempts against IAM resources, generating numerous errors. |
+| 13:01:46               | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration. |
+| 13:03:46               | Data exfiltration/staging: A `txt` file (OPEN_BUCKET_PLEASE_FIX.txt) is uploaded by the attacker to confirm the S3 bucket is writable and publicly accessible. |
+| 13:04:17               | Data exfiltration/staging: A large `.tar.gz` file is uploaded to the S3 bucket, likely serving as the main payload of the attack. |
+| 13:57:54               | The S3 bucket is made private again, closing the vulnerability. |
+
+## Root Cause Analysis
+
+The primary root cause of the incident is the AWS Secret Access key being exposed through human error. At 09:16:55 an automated email from AWS support was received by the user bstoll revealing that this key for the IAM user: web_admin had been leaked. This highly sensitive key had been committed to a publicly available GitHub repository. This allowed a malicious actor to take advantage of this and gain immediate, legitimate and administrative access to the ‘Frothly’ AWS environment.
+
+The secondary root cause was caused by human error and the user bstoll again. After leaking the key, at 13:01:46, bstoll then made the ‘frothlywebcode’ S3 bucket publicly accessible. This allowed the adversary to upload files including malicious ones without any further authorisation, allowing them to stage attack tools for use later on.
+
+Although the incident is a direct consequence of the user: bstoll’s actions, the blame does not fall solely on him as preventative controls should have been in place to prevent these events from happening and having such a detrimental impact on business operations. The IAM user: web_admin which had administrative / high privilege access was not protected by MFA allowing the adversary to log in and make full use of the account without further authentication other than the username and access key. Where MFA was historically considered best practice, it’s now an expectation which needs to be adhered to in order to fully comply with many professional standards and frameworks such as ISO/IEC 27001, CIS Controls v8, and SOC 2 among others. [8] If MFA was mandatory the leaked credentials would have been useless to the attackers. Furthermore, no automated secret scanning tools (such as GitHub pre-commit hooks) were in place within the company. This safeguard would have prevented bstoll from committing the keys to a public repository. In addition to this configuration settings (AWS Account-level Block Public Access) could have been enabled which would have made it impossible for the S3 bucket to be set to public by bstoll preventing the attackers from being able to upload malicious payloads to the bucket.
+
+
 
 ## BOTSv3 200-level Questions
 
@@ -116,7 +130,10 @@ BSTOLL-L.froth.ly
 [4]  https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-61r2.pdf <br>
 [5] https://www.cynet.com/incident-response/nist-incident-response/ <br>
 [6] https://www.crowdstrike.com/en-gb/cybersecurity-101/incident-response/incident-response-steps/ <br>
+12/12 <br>
 [7] https://www.ibm.com/think/topics/security-operations-center <br>
+15/12 <br>
+[8] https://pushsecurity.com/blog/how-cyber-breaches-are-driving-tighter-mfa-requirements-and-enforcement/ <br>
 
 ## Appendix
 ### Q1 Evidence.
@@ -125,4 +142,5 @@ BSTOLL-L.froth.ly
 ![Q1](<Screenshot 2025-12-01 112931 Q1.png>)
 ![Q1 Answer](<Screenshot 2025-12-01 113118 Q1 final.png>)
 
+<!-- ![AWS Support email](image.png) -->
 
