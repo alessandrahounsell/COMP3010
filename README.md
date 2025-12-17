@@ -71,12 +71,12 @@ The secondary root cause was caused by human error and the user bstoll again. Af
 
 Although the incident is a direct consequence of the user: bstoll’s actions, the blame does not fall solely on him as preventative controls should have been in place to prevent these events from happening and having such a detrimental impact on business operations. The IAM user: web_admin which had administrative / high privilege access was not protected by MFA allowing the adversary to log in and make full use of the account without further authentication other than the username and access key. Where MFA was historically considered best practice, it’s now an expectation which needs to be adhered to in order to fully comply with many professional standards and frameworks such as ISO/IEC 27001, CIS Controls v8, and SOC 2 among others. [8] If MFA was mandatory the leaked credentials would have been useless to the attackers. Furthermore, no automated secret scanning tools (such as GitHub pre-commit hooks) were in place within the company. This safeguard would have prevented bstoll from committing the keys to a public repository. In addition to this configuration settings (AWS Account-level Block Public Access) could have been enabled which would have made it impossible for the S3 bucket to be set to public by bstoll preventing the attackers from being able to upload malicious payloads to the bucket.
 
-# Key Indicators of Compromise (IOCs)
+## Key Indicators of Compromise (IOCs)
 
 | IOC Description | Evidence |
 | :--- | :--- |
 | **Compromised IAM User Account:** `web_admin`<br>**AWS Access Key:** `AKIAJOGCDXJ5NW5PXUPA`<br>**Secret Key:** `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` | ![IAM_Compromise_Evidence](iam_user.png) |
-| **AWS Support Email:** Leak notification with AWS Support Case ID: `5244329601` | ![AWS Support email](AWS_email.png) |
+| **AWS Support Email:** Leak notification with AWS Support Case ID: `5244329601` | ![AWS_Support_emails](AWS_email.png) |
 | **Misconfigured S3 Bucket:** `frothlywebcode` | ![S3 bucket](s3_bucket.png) |
 | **CloudTrail Event ID:** `ab45689d-69cd-41e7-8705-5350402cf7ac`<br>(API call for S3 configuration change) | ![Event ID](image.png) |
 | **Malicious File (Deceptive):** `OPEN_BUCKET_PLEASE_FIX.txt` | ![txt file](txt_file.png) |
@@ -116,6 +116,11 @@ bstoll,btun,splunk_access,web_admin
 
 
 Q2.What field would you use to alert that AWS API activity has occurred without MFA? <br> userIdentity.sessionContext.attributes.mfaAuthenticated
+
+### Q2 Evidence
+
+![Q2](Q2-1.png)
+![Q2 Answer](Q2_final-1.png)
 
 
 
