@@ -54,11 +54,11 @@ Detection / Analysis: </b> this phase is the job of the tier 1 analyst and invol
 
 ## Incident Timeline
 
-| Time (Adjusted to UTC) | Event   |
-| --------               | ------- |
-| 09:16:55               | Initial compromise: Bud receives an email notification from AWS Support after the IAM user account web_admin is compromised due to committing the access/ security keys to a public GitHub repository. The adversary gains initial access to AWS. |
+| Time (Adjusted to UTC) | Event   | Evidence  |
+| --------               | ------- | -------   |
+| 09:16:55               | Initial compromise: Bud receives an email notification from AWS Support after the IAM user account web_admin is compromised due to committing the access/ security keys to a public GitHub repository. The adversary gains initial access to AWS. | ![Initial compromise](timeline_aws_email_1.png)|
 | 09:16:12 – 09:27:07    | Adversary reconnaissance: The attacker uses the leaked access key to make repeated attempts against IAM resources, generating numerous errors. |
-| 13:01:46               | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration. |
+| 13:01:46               | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration. | 
 | 13:03:46               | Data exfiltration/staging: A `txt` file (OPEN_BUCKET_PLEASE_FIX.txt) is uploaded by the attacker to confirm the S3 bucket is writable and publicly accessible. |
 | 13:04:17               | Data exfiltration/staging: A large `.tar.gz` file is uploaded to the S3 bucket, likely serving as the main payload of the attack. |
 | 13:57:54               | The S3 bucket is made private again, closing the vulnerability. |
@@ -127,6 +127,10 @@ Q2.What field would you use to alert that AWS API activity has occurred without 
 Q3.What is the processor number used on the web servers? <br>
 E5-2676
 
+### Q3 Evidence
+
+![Q3](Q3.png)
+![Q3_final](Q3_final.png)
 
 
 Q4.Bud accidentally makes an S3 bucket publicly accessible. What is the event ID of the API call that enabled public access? <br>
