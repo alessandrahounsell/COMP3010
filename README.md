@@ -98,7 +98,12 @@ Although the incident is a direct consequence of the user: bstoll’s actions, t
 | **Malicious File (Deceptive):** `OPEN_BUCKET_PLEASE_FIX.txt` | ![txt file](txt_file.png) |
 | **Malicious File (Main Payload):** `frothly_html_memcached.tar.gz` | ![tar .gz file](tar_gz_file.png) |
 
+### Recovery Timeline
 
+| Time (UTC) | Activity | Evidence |
+| :--- | :--- | :--- |
+| 13:57:54 | The exposed S3 bucket is set to private. | ![S3 bucket made private](bucket_set_false.png) |
+| 14:05:23 | Mining process is terminated on BSTOLL-L endpoint. | ![mining terminated](mining_ends.png) |
 
 
 ## Conclusion
@@ -116,6 +121,8 @@ Although the incident is a direct consequence of the user: bstoll’s actions, t
 [7] https://www.ibm.com/think/topics/security-operations-center <br>
 15/12 <br>
 [8] https://pushsecurity.com/blog/how-cyber-breaches-are-driving-tighter-mfa-requirements-and-enforcement/ <br>
+22/12 <br>
+[9] https://auditboard.com/blog/nist-incident-response 
 
 ## Appendix
 
