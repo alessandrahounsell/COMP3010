@@ -105,6 +105,17 @@ Although the incident is a direct consequence of the user: bstoll’s actions, t
 | 13:57:54 | The exposed S3 bucket is set to private. | ![S3 bucket made private](bucket_set_false.png) |
 | 14:05:23 | Mining process is terminated on BSTOLL-L endpoint. | ![mining terminated](mining_ends.png) |
 
+After the incident is contained the malicious files should be eradicated from the system and the company should start recovery to return back to business as usual.
+
+### Suggested timeline for eradication and recovery:
+
+<ul>
+<li>14:30 - The malicious files: PEN_BUCKET_PLEASE_FIX.txt and frothly_html_memcached.tar.gz, the main payload should be deleted from the frothlywebcode S3 bucket.
+<li>15:00 - The host: BSTOLL-L should be promptly isolated to prevent further cryptomining and lateral movement.
+<li>16:00 - CloudTrail logs should be reviewed for the 24-hour window to ensure no other backdoors (like new IAM users) were created.
+<li>The following day - BAU, Automated deployments and pipeline should be re-enabled.
+</ul>
+
 
 ## Conclusion
 ## References 
