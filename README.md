@@ -68,17 +68,13 @@ Detection / Analysis: </b> this phase is the job of the tier 1 analyst and invol
 
 ## Installation & Data Preparation
 
-# Splunk Enterprise Installation and Configuration Guide
-
 This guide outlines the process for installing Splunk Enterprise on an Ubuntu VM, applying a license, and ingesting the BOTSv3 dataset.
-
----
 
 ### Splunk Installation
 
 I installed Splunk onto an Ubuntu VM using the following steps:
 
-1.  **Download:** Log into Splunk Enterprise and navigate to the **Splunk Enterprise downloads page**. 
+1.  **Download:** Log into Splunk Enterprise and navigate to the **Splunk Enterprise downloads page**.
 2.  Select **Linux** and locate the `.tgz` version.
 3.  Click **'Copy wget link'** to copy the command to your clipboard.
 4.  **Transfer:** Open the terminal in the VM, run `cd Documents`, and paste the `wget` command.
@@ -100,8 +96,6 @@ I installed Splunk onto an Ubuntu VM using the following steps:
     * **Start:** `sudo ./splunk start`
     * **Stop:** `sudo ./splunk stop`
 
----
-
 ### Adding Splunk License
 
 1.  Download the license file from the DLE within the VM.
@@ -111,8 +105,6 @@ I installed Splunk onto an Ubuntu VM using the following steps:
     ```bash
     sudo ./splunk restart
     ```
-
----
 
 ### Installing the BOTSv3 Dataset
 
@@ -137,8 +129,6 @@ The BOTSv3 dataset is publicly available on [GitHub](https://github.com/splunk/b
     ```
 9.  Set the time range to **All time**.
 10. **Validation:** Click search. There should be **2,083,056 events** within the dataset.
-
----
 
 ### Installing Windows Add-on
 Used to investigate coin mining events occurring on Windows machines.
