@@ -68,6 +68,88 @@ Detection / Analysis: </b> this phase is the job of the tier 1 analyst and invol
 
 ## Installation & Data Preparation
 
+# Splunk Enterprise Installation and Configuration Guide
+
+This guide outlines the process for installing Splunk Enterprise on an Ubuntu VM, applying a license, and ingesting the BOTSv3 dataset.
+
+---
+
+### Splunk Installation
+
+I installed Splunk onto an Ubuntu VM using the following steps:
+
+1.  **Download:** Log into Splunk Enterprise and navigate to the **Splunk Enterprise downloads page**. 
+2.  Select **Linux** and locate the `.tgz` version.
+3.  Click **'Copy wget link'** to copy the command to your clipboard.
+4.  **Transfer:** Open the terminal in the VM, run `cd Documents`, and paste the `wget` command.
+5.  **Extract:** Once the download is finished, install Splunk into the `/opt` directory using:
+    ```bash
+    sudo tar xvzf splunk-10.0.1-c486717c322.b-linux-amd64.tgz -C /opt
+    ```
+6.  **Navigate:** Once the extraction is complete, move to the bin directory:
+    ```bash
+    cd /opt/splunk/bin
+    ```
+7.  **Initialise:** Start Splunk and accept the license:
+    ```bash
+    sudo ./splunk start --accept-license
+    ```
+8.  **Setup Account:** Enter an admin username and password when prompted to create your account.
+9.  **Access Web UI:** Once Splunk is running, navigate to `http://localhost:8000` in your browser.
+10. **Management Commands:**
+    * **Start:** `sudo ./splunk start`
+    * **Stop:** `sudo ./splunk stop`
+
+---
+
+### Adding Splunk License
+
+1.  Download the license file from the DLE within the VM.
+2.  With Splunk running, navigate to **Settings > Licensing**.
+3.  Click **Add License** and upload the file from your `Downloads` folder.
+4.  Restart Splunk to apply changes:
+    ```bash
+    sudo ./splunk restart
+    ```
+
+---
+
+### Installing the BOTSv3 Dataset
+
+The BOTSv3 dataset is publicly available on [GitHub](https://github.com/splunk/botsv3).
+
+1.  Download and extract the dataset within the Linux VM.
+2.  Open the terminal and elevate permissions: `sudo su`.
+3.  Navigate to the dataset location (e.g., `cd /home/user/Downloads`).
+4.  **Copy to Splunk Apps:**
+    ```bash
+    cp -r botsv3_data_set /opt/splunk/etc/apps
+    ```
+5.  Navigate back to the Splunk bin directory:
+    ```bash
+    cd /opt/splunk/bin
+    ```
+6.  Start Splunk and log in to the web interface.
+7.  Navigate to **Search & Reporting**.
+8.  **Query Data:** Enter the following search query:
+    ```splunk
+    index=botsv3 earliest=0
+    ```
+9.  Set the time range to **All time**.
+10. **Validation:** Click search. There should be **2,083,056 events** within the dataset.
+
+---
+
+### Installing Windows Add-on
+Used to investigate coin mining events occurring on Windows machines.
+
+1.  Download the **Splunk Add-on for Microsoft Windows** from [Splunkbase](https://splunkbase.splunk.com/app/742).
+2.  Log in to the Splunk web interface.
+3.  Go to **Apps > Manage Apps** and click **Install app from file**.
+4.  Upload the downloaded file.
+5.  Restart Splunk to initialise the new fields and data models.
+
+
 ## Incident Timeline
 
 | Time (Adjusted to UTC) | Event   | Evidence  |
