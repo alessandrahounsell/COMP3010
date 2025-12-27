@@ -48,6 +48,9 @@ Detection / Analysis: </b> this phase is the job of the tier 1 analyst and invol
 <li><b> Recovery / Post Incident: </b> This is the phase where reflection should happen and lessons should be learnt. An overview of the incident should be done to determine how well the IR team did, whether the procedures in place were followed and sufficient. And also to analyse what can be done differently and which indicators can be looked into to create a better security posture for the company in the future. [6] </li>
 </ol>
 
+![NIST Incident Response Cycle](<NIST_phases.png>)
+NIST Incident Response Cycle [9]
+
 ### Reflection on how incident handling and methodologies are used within the BOTsV3 Data
 
 | Question | Phase | Team Member | SOC Relevance |
@@ -74,45 +77,58 @@ This guide outlines the process for installing Splunk Enterprise on an Ubuntu VM
 
 I installed Splunk onto an Ubuntu VM using the following steps:
 
-1.  **Download:** Log into Splunk Enterprise and navigate to the **Splunk Enterprise downloads page**.
-2.  Select **Linux** and locate the `.tgz` version.
-3.  Click **'Copy wget link'** to copy the command to your clipboard.
-4.  **Transfer:** Open the terminal in the VM, run `cd Documents`, and paste the `wget` command.
-5.  **Extract:** Once the download is finished, install Splunk into the `/opt` directory using:
+1.  **Download:** Log into Splunk Enterprise and navigate to the **Splunk Enterprise downloads page**. Select **Linux** and locate the `.tgz` version.
+![Splunk downloads page](<Installation/splunk_download.png>)
+2.  Click **'Copy wget link'** to copy the command to your clipboard.
+![Copy link](<Installation/splunk_download_2.png>)
+3.  **Transfer:** Open the terminal in the VM, run `cd Desktop`, and paste the `wget` command.
+![Paste wget command](<Installation/splunk_install_3.png>)
+4.  **Extract:** Once the download is finished, install Splunk into the `/opt` directory using:
     ```bash
     sudo tar xvzf splunk-10.0.1-c486717c322.b-linux-amd64.tgz -C /opt
     ```
-6.  **Navigate:** Once the extraction is complete, move to the bin directory:
+    ![Extract](<Installation/splunk_install_4.png>)
+5.  **Navigate:** Once the extraction is complete, move to the bin directory:
     ```bash
     cd /opt/splunk/bin
     ```
-7.  **Initialise:** Start Splunk and accept the license:
+6.  **Initialise:** Start Splunk and accept the license:
     ```bash
     sudo ./splunk start --accept-license
     ```
-8.  **Setup Account:** Enter an admin username and password when prompted to create your account.
-9.  **Access Web UI:** Once Splunk is running, navigate to `http://localhost:8000` in your browser.
-10. **Management Commands:**
+    ![Init](<Installation/splunk_install_start_5.png>)
+7.  **Setup Account:** Enter an admin username and password when prompted to create your account.
+![Setup admin](<Installation/splunk_set_up_admin_6.png>)
+8.  **Access Web UI:** Once Splunk is running, navigate to `http://localhost:8000` in your browser.
+![Localhost](<Installation/splunk_localhost_8.png>)
+9. **Management Commands:**
     * **Start:** `sudo ./splunk start`
     * **Stop:** `sudo ./splunk stop`
 
 ### Adding Splunk License
 
 1.  Download the license file from the DLE within the VM.
+![Download license](<Installation/license_1.png>)
 2.  With Splunk running, navigate to **Settings > Licensing**.
+![Download license](<Installation/license_2.png>)
 3.  Click **Add License** and upload the file from your `Downloads` folder.
-4.  Restart Splunk to apply changes:
-    ```bash
-    sudo ./splunk restart
-    ```
+![Add license](<Installation/Add_license.png>)
+4. Click **Install**
+![Download license](<Installation/license_3.png>)
+4.  Restart Splunk to apply changes
+![License restart](<Installation/license_restart_4.png>)
 
 ### Installing the BOTSv3 Dataset
 
 The BOTSv3 dataset is publicly available on [GitHub](https://github.com/splunk/botsv3).
 
 1.  Download and extract the dataset within the Linux VM.
+![Extract dataset](<Installation/extract_dataset.png>)
+
 2.  Open the terminal and elevate permissions: `sudo su`.
-3.  Navigate to the dataset location (e.g., `cd /home/user/Downloads`).
+3.  Navigate to the dataset location (e.g., `cd /home/student/Downloads`).
+![Dataset location](<Installation/dataset.png>)
+
 4.  **Copy to Splunk Apps:**
     ```bash
     cp -r botsv3_data_set /opt/splunk/etc/apps
@@ -122,6 +138,7 @@ The BOTSv3 dataset is publicly available on [GitHub](https://github.com/splunk/b
     cd /opt/splunk/bin
     ```
 6.  Start Splunk and log in to the web interface.
+![Dataset set up](<Installation/dataset_2.png>)
 7.  Navigate to **Search & Reporting**.
 8.  **Query Data:** Enter the following search query:
     ```splunk
@@ -129,14 +146,17 @@ The BOTSv3 dataset is publicly available on [GitHub](https://github.com/splunk/b
     ```
 9.  Set the time range to **All time**.
 10. **Validation:** Click search. There should be **2,083,056 events** within the dataset.
+![Validate Dataset set up](<Installation/dataset_validate.png>)
 
 ### Installing Windows Add-on
 Used to investigate coin mining events occurring on Windows machines.
 
 1.  Download the **Splunk Add-on for Microsoft Windows** from [Splunkbase](https://splunkbase.splunk.com/app/742).
+![Windows Add on](<Installation/windows_add_on.png>)
 2.  Log in to the Splunk web interface.
 3.  Go to **Apps > Manage Apps** and click **Install app from file**.
 4.  Upload the downloaded file.
+![Windows Add on](<Installation/Install_windows_add_on_2.png>)
 5.  Restart Splunk to initialise the new fields and data models.
 
 
@@ -144,12 +164,13 @@ Used to investigate coin mining events occurring on Windows machines.
 
 | Time (Adjusted to UTC) | Event   | Evidence  |
 | --------               | ------- | -------   |
-| 09:16:55               | Initial compromise: Bud receives an email notification from AWS Support after the IAM user account web_admin is compromised due to committing the access/ security keys to a public GitHub repository. The adversary gains initial access to AWS. | ![Initial compromise](timeline_aws_email_1.png)|
-| 09:16:12 – 09:27:07    | Adversary reconnaissance: The attacker uses the leaked access key to make repeated attempts against IAM resources, generating numerous errors. |
-| 13:01:46               | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration. | 
-| 13:03:46               | Data exfiltration/staging: A `txt` file (OPEN_BUCKET_PLEASE_FIX.txt) is uploaded by the attacker to confirm the S3 bucket is writable and publicly accessible. |
-| 13:04:17               | Data exfiltration/staging: A large `.tar.gz` file is uploaded to the S3 bucket, likely serving as the main payload of the attack. |
-| 13:57:54               | The S3 bucket is made private again, closing the vulnerability. |
+| 09:16:55               | Initial compromise: Bud receives an email notification from AWS Support after the IAM user account web_admin is compromised due to committing the access/ security keys to a public GitHub repository. The adversary gains initial access to AWS. | ![Initial compromise](<Timeline/timeline_aws_email_1.png>)|
+| 09:16:12 – 09:27:07    | Adversary reconnaissance: The attacker uses the leaked access key to make repeated attempts against IAM resources, generating numerous errors. |  ![Adversary reconnaissance](<Timeline/timeline_accesskey_attempts_2.png>)|
+| 13:01:46               | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration. | ![S3 bucket set to public](<Timeline/.png>)|
+| 13:03:46               | Data exfiltration/staging: A `txt` file (OPEN_BUCKET_PLEASE_FIX.txt) is uploaded by the attacker to confirm the S3 bucket is writable and publicly accessible. | ![.txt upload](<Timeline/txt_file_4.png>)|
+| 13:04:17               | Data Exfiltration/Staging: A large .tar.gz file is uploaded to the S3 bucket which is likely the main payload for the attack containing a miner. | ![Main payload upload](<Timeline/staging_file_5.png>)|
+| 13:37:51                | The endpoint BSTOLL-L begins executing the payload and shows signs of coin mining activity with the CPU reaching 100% utilisation. | ![Main payload upload](<Timeline/cpu_utalisation_6.png>)|
+| 13:57:54               | The S3 bucket is made private again, closing the vulnerability. | ![S3 bucket made private](<Timeline/timeline_7.png>)|
 
 ## Root Cause Analysis
 
@@ -163,19 +184,19 @@ Although the incident is a direct consequence of the user: bstoll’s actions, t
 
 | IOC Description | Evidence |
 | :--- | :--- |
-| **Compromised IAM User Account:** `web_admin`<br>**AWS Access Key:** `AKIAJOGCDXJ5NW5PXUPA`<br>**Secret Key:** `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` | ![IAM_Compromise_Evidence](iam_user.png) |
-| **AWS Support Email:** Leak notification with AWS Support Case ID: `5244329601` | ![AWS_Support_emails](AWS_email.png) |
-| **Misconfigured S3 Bucket:** `frothlywebcode` | ![S3 bucket](s3_bucket.png) |
-| **CloudTrail Event ID:** `ab45689d-69cd-41e7-8705-5350402cf7ac`<br>(API call for S3 configuration change) | ![Event ID](image.png) |
-| **Malicious File (Deceptive):** `OPEN_BUCKET_PLEASE_FIX.txt` | ![txt file](txt_file.png) |
-| **Malicious File (Main Payload):** `frothly_html_memcached.tar.gz` | ![tar .gz file](tar_gz_file.png) |
+| **Compromised IAM User Account:** `web_admin`<br>**AWS Access Key:** `AKIAJOGCDXJ5NW5PXUPA`<br>**Secret Key:** `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` | ![IAM_Compromise_Evidence](<IOCs/iam_user.png>) |
+| **AWS Support Email:** Leak notification with AWS Support Case ID: `5244329601` | ![AWS_Support_emails](<IOCs/AWS_email.png>) |
+| **Misconfigured S3 Bucket:** `frothlywebcode` | ![S3 bucket](<IOCs/s3_bucket.png>) |
+| **CloudTrail Event ID:** `ab45689d-69cd-41e7-8705-5350402cf7ac`<br>(API call for S3 configuration change) | ![Event ID](<IOCs/Event_id.png>) |
+| **Malicious File (Deceptive):** `OPEN_BUCKET_PLEASE_FIX.txt` | ![txt file](<IOCs/txt_file.png>) |
+| **Malicious File (Main Payload):** `frothly_html_memcached.tar.gz` | ![tar .gz file](<IOCs/tar_gz_file.png>) |
 
 ### Recovery Timeline
 
 | Time (UTC) | Activity | Evidence |
 | :--- | :--- | :--- |
-| 13:57:54 | The exposed S3 bucket is set to private. | ![S3 bucket made private](bucket_set_false.png) |
-| 14:05:23 | Mining process is terminated on BSTOLL-L endpoint. | ![mining terminated](mining_ends.png) |
+| 13:57:54 | The exposed S3 bucket is set to private. | ![S3 bucket made private](<Timeline/bucket_set_false.png>) |
+| 14:05:23 | Mining process is terminated on BSTOLL-L endpoint. | ![mining terminated](<Timeline/mining_ends.png>) |
 
 After the incident is contained the malicious files should be eradicated from the system and the company should start recovery to return back to business as usual.
 
@@ -214,19 +235,19 @@ After the incident is contained the malicious files should be eradicated from th
 Q1.List out the IAM users that accessed an AWS service (successfully or unsuccessfully) in Frothly's AWS environment? <br>
 bstoll,btun,splunk_access,web_admin
 
-### Q1 Evidence.
+### Q1 Evidence
 
-![Q1](<Screenshot 2025-12-01 112623 Q1.png>)
-![Q1](<Screenshot 2025-12-01 112931 Q1.png>)
-![Q1 Answer](<Screenshot 2025-12-01 113118 Q1 final.png>)
+![Q1](<Evidence for BOTSv3 200-level Questions/Q1.png>)
+![Q1](<Evidence for BOTSv3 200-level Questions/Q1-1.png>)
+![Q1 Answer](<Evidence for BOTSv3 200-level Questions/Q1_final.png>)
 
 
 Q2.What field would you use to alert that AWS API activity has occurred without MFA? <br> userIdentity.sessionContext.attributes.mfaAuthenticated
 
 ### Q2 Evidence
 
-![Q2](Q2-1.png)
-![Q2 Answer](Q2_final-1.png)
+![Q2](<Evidence for BOTSv3 200-level Questions/Q2-1.png>)
+![Q2 Answer](<Evidence for BOTSv3 200-level Questions/Q2_final-1.png>)
 
 
 
@@ -235,31 +256,51 @@ E5-2676
 
 ### Q3 Evidence
 
-![Q3](Q3.png)
-![Q3_final](Q3_final.png)
+![Q3](<Evidence for BOTSv3 200-level Questions/Q3.png>)
+![Q3_final](<Evidence for BOTSv3 200-level Questions/Q3_final.png>)
 
 
 Q4.Bud accidentally makes an S3 bucket publicly accessible. What is the event ID of the API call that enabled public access? <br>
 ab45689d-69cd-41e7-8705-5350402cf7ac
 
+### Q4 Evidence
+
+![Q4](<Evidence for BOTSv3 200-level Questions/Q4.png>)
+![Q4_final](<Evidence for BOTSv3 200-level Questions/Q4_final.png>)
 
 
 Q5. What is Bud's username? <br>
 bstoll
 
+### Q5 Evidence 
+
+![Q5](<Evidence for BOTSv3 200-level Questions/Q5.png>)
 
 Q6.What is the name of the S3 bucket that was made publicly accessible? <br> 
 frothlywebcode
+
+### Q6 Evidence
+
+![Q6](<Evidence for BOTSv3 200-level Questions/Q6.png>)
+
 
 
 Q7. What is the name of the text file that was successfully uploaded into the S3 bucket while it was publicly accessible? <br> 
 OPEN_BUCKET_PLEASE_FIX.txt
 
+### Q7 Evidence
 
+![Q7](<Evidence for BOTSv3 200-level Questions/Q7.png>)
+![Q7-1](<Evidence for BOTSv3 200-level Questions/Q7-1.png>)
+![Q7 Final](<Evidence for BOTSv3 200-level Questions/Q7_final.png>)
 
 
 Q8. What keywords can you start your search with to help identify what data sources can help you with this? <br>
 BSTOLL-L.froth.ly
 
-<!-- ![AWS Support email](image.png) -->
+### Q8 Evidence
+
+![Q8](<Evidence for BOTSv3 200-level Questions/Q8.png>)
+![Q8-1](<Evidence for BOTSv3 200-level Questions/Q8-1.png>)
+![Q7 Final](<Evidence for BOTSv3 200-level Questions/Q8_final.png>)
 
