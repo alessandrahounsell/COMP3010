@@ -48,7 +48,7 @@ Detection / Analysis: </b> this phase is the job of the tier 1 analyst and invol
 <li><b> Recovery / Post Incident: </b> This is the phase where reflection should happen and lessons should be learnt. An overview of the incident should be done to determine how well the IR team did, whether the procedures in place were followed and sufficient. And also to analyse what can be done differently and which indicators can be looked into to create a better security posture for the company in the future. [6] </li>
 </ol>
 
-![NIST Incident Response Cycle](<NIST_phases.png>)
+![NIST Incident Response Cycle](<NIST_phases.png>) <br>
 NIST Incident Response Cycle [9]
 
 ### Reflection on how incident handling and methodologies are used within the BOTsV3 Data
@@ -112,7 +112,7 @@ I installed Splunk onto an Ubuntu VM using the following steps:
 2.  With Splunk running, navigate to **Settings > Licensing**.
 ![Download license](<Installation/license_2.png>)
 3.  Click **Add License** and upload the file from your `Downloads` folder.
-![Add license](<Installation/Add_license.png>)
+![Add license](<Installation/add_license.png>)
 4. Click **Install**
 ![Download license](<Installation/license_3.png>)
 4.  Restart Splunk to apply changes
@@ -140,6 +140,7 @@ The BOTSv3 dataset is publicly available on [GitHub](https://github.com/splunk/b
 6.  Start Splunk and log in to the web interface.
 ![Dataset set up](<Installation/dataset_2.png>)
 7.  Navigate to **Search & Reporting**.
+![Dataset set up](<Installation/dataset_navigate.png>)
 8.  **Query Data:** Enter the following search query:
     ```splunk
     index=botsv3 earliest=0
@@ -154,7 +155,9 @@ Used to investigate coin mining events occurring on Windows machines.
 1.  Download the **Splunk Add-on for Microsoft Windows** from [Splunkbase](https://splunkbase.splunk.com/app/742).
 ![Windows Add on](<Installation/windows_add_on.png>)
 2.  Log in to the Splunk web interface.
-3.  Go to **Apps > Manage Apps** and click **Install app from file**.
+3.  Go to **Apps > Manage ** and click **Install app from file**.
+![Windows Add on](<Installation/windows_add_on_navigate.png>)
+![Windows Add on](<Installation/windows_add_on_navigate_2.png>)
 4.  Upload the downloaded file.
 ![Windows Add on](<Installation/Install_windows_add_on_2.png>)
 5.  Restart Splunk to initialise the new fields and data models.
@@ -166,7 +169,7 @@ Used to investigate coin mining events occurring on Windows machines.
 | --------               | ------- | -------   |
 | 09:16:55               | Initial compromise: Bud receives an email notification from AWS Support after the IAM user account web_admin is compromised due to committing the access/ security keys to a public GitHub repository. The adversary gains initial access to AWS. | ![Initial compromise](<Timeline/timeline_aws_email_1.png>)|
 | 09:16:12 – 09:27:07    | Adversary reconnaissance: The attacker uses the leaked access key to make repeated attempts against IAM resources, generating numerous errors. |  ![Adversary reconnaissance](<Timeline/timeline_accesskey_attempts_2.png>)|
-| 13:01:46               | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration. | ![S3 bucket set to public](<Timeline/.png>)|
+| 13:01:46               | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration. | ![S3 bucket set to public](<Timeline/bucket_set_public.png>)|
 | 13:03:46               | Data exfiltration/staging: A `txt` file (OPEN_BUCKET_PLEASE_FIX.txt) is uploaded by the attacker to confirm the S3 bucket is writable and publicly accessible. | ![.txt upload](<Timeline/txt_file_4.png>)|
 | 13:04:17               | Data Exfiltration/Staging: A large .tar.gz file is uploaded to the S3 bucket which is likely the main payload for the attack containing a miner. | ![Main payload upload](<Timeline/staging_file_5.png>)|
 | 13:37:51                | The endpoint BSTOLL-L begins executing the payload and shows signs of coin mining activity with the CPU reaching 100% utilisation. | ![Main payload upload](<Timeline/cpu_utalisation_6.png>)|
@@ -185,7 +188,7 @@ Although the incident is a direct consequence of the user: bstoll’s actions, t
 | IOC Description | Evidence |
 | :--- | :--- |
 | **Compromised IAM User Account:** `web_admin`<br>**AWS Access Key:** `AKIAJOGCDXJ5NW5PXUPA`<br>**Secret Key:** `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` | ![IAM_Compromise_Evidence](<IOCs/iam_user.png>) |
-| **AWS Support Email:** Leak notification with AWS Support Case ID: `5244329601` | ![AWS_Support_emails](<IOCs/AWS_email.png>) |
+| **AWS Support Email:** Leak notification with AWS Support Case ID: `5244329601` | ![AWS Support email](<IOCs/email.png>) |
 | **Misconfigured S3 Bucket:** `frothlywebcode` | ![S3 bucket](<IOCs/s3_bucket.png>) |
 | **CloudTrail Event ID:** `ab45689d-69cd-41e7-8705-5350402cf7ac`<br>(API call for S3 configuration change) | ![Event ID](<IOCs/Event_id.png>) |
 | **Malicious File (Deceptive):** `OPEN_BUCKET_PLEASE_FIX.txt` | ![txt file](<IOCs/txt_file.png>) |
