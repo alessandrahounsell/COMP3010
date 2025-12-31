@@ -220,6 +220,9 @@ This increases the severity of the incident and the business impact significantl
 
 
 ## Conclusion
+
+This analysis of the BOTSv3 Frothly incident demonstrates how human error and insufficient preventative security controls can escalate rapidly. The incident was caused when a user published a highly privileged AWS access key to a public GitHub repository which enabled malicious attackers to gain legitimate, administrative access to Frothly’s cloud environment. A subsequent configuration error exacerbated the vulnerability when an S3 bucket was made public allowing for malicious uploads. The lack of security failsafes allowed these two accounts of human error to become a major security incident.
+
 ## References 
 
 06/12 <br>
