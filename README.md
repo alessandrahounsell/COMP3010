@@ -1,8 +1,10 @@
 # Frothly BOTSV3 Incident Analysis
 
+<b>YouTube Video to assist with evidence:</b>
+
 ## Introduction
 
-This report documents the simulated security incident within the fictional brewing company named “Frothly” on the 20th August 2018. In this writeup I will be analysing the collections of logs provided in the publicly available dataset: BOTSV3 to investigate the attack following the cyber kill chain methodology.
+This report documents the simulated security incident within the fictional brewing company named 'Frothly' on the 20th August 2018. In this writeup I will be analysing the collections of logs provided in the publicly available dataset BOTSV3 to investigate the attack following the cyber kill chain methodology.
 
 ### Objectives:
 <ol>
@@ -14,7 +16,8 @@ This report documents the simulated security incident within the fictional brewi
 
 ### Scope:
 
-The report below is inclusive of the data provided by the BOTSV3 dataset, available here: https://github.com/splunk/botsv3 , within Splunk. Including network, endpoint, email, and cloud service data from environments like Amazon AWS and Microsoft Azure. This is a post-incident analysis and as such excludes external information gathering such as the implementation of any immediate attack mitigations and any direct interaction with infected machines or networks.
+This analysis utilises data provided by the BOTSV3 dataset available at: https://github.com/splunk/botsv3 which provides network, endpoint, email, and cloud service data from environments like Amazon AWS and Microsoft Azure. This is a post-incident analysis and as such excludes external information gathering such as the implementation of any immediate attack mitigations and any direct interaction with infected machines or networks. 
+
 
 ### Assumptions:
 
@@ -31,9 +34,9 @@ The report below is inclusive of the data provided by the BOTSV3 dataset, availa
 
 A SOC team is ‘a centralised team responsible for improving an organisation’s cybersecurity posture by preventing, detecting and responding to threats.’ [1]  A SOC consists of a combination of cybersecurity professionals, including three tiers of cybersecurity analysts whose roles are as follows:
 <ul>
-<li> <b> Tier 1 - Triage: </b> Initial monitoring and prioritising of alerts. Gathering preliminary evidence to enrich alert data with context by correlating events from multiple platforms, [2] which can then be escalated to tier 2 analysts. [3] </li>
-<li> <b> Tier 2 -  Incident Responder: </b> Core in-depth investigation of alerts escalated by the tier 1 analyst. Identifies the affected systems and scope of the attack and conducts comprehensive log analysis and forensic examination. Implementing appropriate containment/ remediation strategies. </li>
-<li> <b> Tier 3  - Threat Hunter: </b> Takes a proactive approach searching for suspicious activity before it becomes an incident and leading network testing such as vulnerability and PEN testing. Also serves as an escalation point for tier 2 analysts analysing complex incidents. </li>
+<li> <b> Tier 1 - Triage: </b> Initial monitoring and prioritising of alerts. Gathering preliminary evidence to enrich alert data with context by correlating events from multiple platforms, [2] which can then be escalated to Tier 2 analysts. [3] </li>
+<li> <b> Tier 2 -  Incident Responder: </b> Core in-depth investigation of alerts escalated by the Tier 1 analyst. Identifies the affected systems and scope of the attack and conducts comprehensive log analysis and forensic examination. Implementing appropriate containment/ remediation strategies. </li>
+<li> <b> Tier 3  - Threat Hunter: </b> Takes a proactive approach searching for suspicious activity before it becomes an incident and leading network testing such as vulnerability and PEN testing. Also serves as an escalation point for Tier 2 analysts analysing complex incidents. </li>
 </ul>
 
 ### NIST Incident Response Framework
@@ -44,34 +47,34 @@ NIST Incident Response Cycle [4]
 The NIST incident response framework is a four-phase lifecycle, found in NIST’s Special Publication 800-61 [5], intended to help organisations learn how to protect themselves against security incidents. [6] The four stages are as follows: preparation, detection/analysis, containment/eradication, and recovery.
 
 <ol>
-<li><b> Preparation: </b> in this phase, incident response plans are generated and CSIRT teams with specified responsibilities are defined to ensure incidents can be effectively prevented and responded to. Proper infrastructure should be set up to enable incident detection and investigation as well as the collection and preservation of evidence. [7] Threat intelligence is crucial to these plans so tier 3 analysts will be vital for this phase. </li>
+<li><b> Preparation: </b> in this phase, incident response plans are generated and CSIRT teams with specified responsibilities are defined to ensure incidents can be effectively prevented and responded to. Proper infrastructure should be set up to enable incident detection and investigation as well as the collection and preservation of evidence. [7] Threat intelligence is crucial to these plans so Tier 3 analysts will be vital for this phase. </li>
 <li><b>
-Detection / Analysis: </b> this phase is the job of the tier 1 analyst and involves collecting data from IT systems, security tools, publicly available information [6] to pinpoint precursors and indicators of a security incident. The signs should then be analysed to determine if they are part of an attack or false positives, and then scored so the incident can be prioritised based on the impact it will have on the company. </li>
-<li><b> Containment / Eradication: </b> This phase should be primarily undertaken by a tier 2 analyst with help from a tier 3 analyst in complex cases. Containment is the process of halting the effects of the attack before it causes major or further damage. This usually includes identifying and blocking communication from the attacker’s IP. Once the incident has been contained elements of the incident should be eradicated from affected environments. The systems should be restored quickly to minimise disruption. Logs and events from the incident should be kept for further investigation and to help plan for future attacks. </li>
-<li><b> Recovery / Post Incident: </b> This is the phase where reflection should happen and lessons should be learnt. An overview of the incident should be done to determine how well the IR team did, whether the procedures in place were followed and sufficient. And also to analyse what can be done differently and which indicators can be looked into to create a better security posture for the company in the future. [7] </li>
+Detection / Analysis: </b> this phase is the job of the Tier 1 analyst and involves collecting data from IT systems, security tools, publicly available information [6] to pinpoint precursors and indicators of a security incident. The signs should then be analysed to determine if they are part of an attack or false positives, and then scored so the incident can be prioritised based on the impact it will have on the company. </li>
+<li><b> Containment / Eradication: </b> This phase should be primarily undertaken by a Tier 2 analyst with help from a Tier 3 analyst in complex cases. Containment is the process of halting the effects of the attack before it causes major or further damage. This usually includes identifying and blocking communication from the attacker’s IP. Once the incident has been contained elements of the incident should be eradicated from affected environments. The systems should be restored quickly to minimise disruption. Logs and events from the incident should be kept for further investigation and to help plan for future attacks. </li>
+<li><b> Recovery / Post Incident: </b> This is the phase where reflection should happen and lessons should be learnt. An overview of the incident should be completed to determine how well the IR team did, whether the procedures in place were followed and sufficient. And also to analyse what can be done differently and which indicators can be looked into to create a better security posture for the company in the future. [7] </li>
 </ol>
 
-### Reflection on how incident handling and methodologies are used within the BOTsV3 Data
+### Reflection on how incident handling and methodologies are used
 
 | Question | Phase | Team Member | SOC Relevance |
 |---------|-------|-------------|---------------|
 | Q1 | Detection / Analysis | Tier 1 | Tier 1 analysts establish a baseline for normal activity, such as which accounts are active and what is normal for the user. This allows for better anomaly detection. Log management creates a collection of log data generated by each network event. [8] The list of IAM users is also used by the SOC to enforce the principle of least privilege. High-privilege users such as `splunk_access` and `web_admin` require more scrutiny, as compromise of these accounts could cause significant harm to the business. |
-| Q2 | Preparation | Tier 3 | An action completed without MFA authentication is a potential policy violation. A Tier 3 analyst helps define security standards, such as making MFA mandatory during the preparation phase. This mechanism allows the SOC to detect and alert on policy failures, preventing account compromise. |
-| Q3 | Preparation | Tier 3 | Knowing the processor number  (in the case of BOTSv3 this is Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz)  is essential for vulnerability management, as it allows the SOC to respond quickly if a hardware-level vulnerability is announced. Logging this information during the preparation phase helps determine exposure, prioritise patching, and monitor for exploitation attempts. |
-| Q4 | Detection / Analysis | Tier 2 | This event ID represents the starting point of the incident and serves as a crucial reference for a Tier 2 incident responder when creating an accurate incident timeline. |
-| Q5 | Detection / Analysis | Tier 2 | Identifying *Bstoll* as the user who made the error is key for root cause analysis. The Tier 2 analyst uses this as a pivot point for investigation, questioning why the action was performed, whether it should have been allowed, and if IAM permissions align with least privilege principles. |
-| Q6 | Detection / Analysis | Tier 2 | Correctly identifying the affected asset allows the Tier 2 analyst to assess the incident’s scope and prioritise containment. The bucket name suggests it contains source code for the Frothly website, elevating the incident’s severity due to risks of intellectual property theft or data leakage. |
+| Q2 | Preparation | Tier 3 | An action completed without MFA authentication is a potential policy violation. A Tier 3 analyst helps define security standards, such as making MFA mandatory during the preparation phase. This field is the mechanism used by the SOC to detect and alert on policy failures, preventing account compromise. |
+| Q3 | Preparation | Tier 3 | Knowing the processor number  (in the case of BOTSv3 this is Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz) is essential for vulnerability management as it allows the SOC to stay ahead of the game, if a hardware-level vulnerability is announced. This information should be logged during the preparation phase to help determine if a system could potentially be affected and allow for prioritisation of patching and looking for exploitation on this front. |
+| Q4 | Detection / Analysis | Tier 2 | This event ID is a key starting point of the incident and is a crucial reference point which can be used by a Tier 2 incident responder to create an incident timeline. |
+| Q5 | Detection / Analysis | Tier 2 | Identifying Bstoll as the user who made the error is key to identifying the root cause. The Tier 2 analyst uses this as a pivot point for the investigation. Asking questions such as: why did Bud do this? Why was Bud allowed to complete this action and should he be able to? IAM permissions need to be reviewed to ensure least privilege architecture is in place to stop this from happening again. |
+| Q6 | Detection / Analysis | Tier 2 | Correctly identifying the affected asset allows the Tier 2 analyst to assess the scope of the incident to prioritise containment efforts. The name of the bucket suggests the source code for the Frothly website, this elevates the priority of the containment efforts as having this information exposed could lead to intellectual property theft or a data leak. |
 | Q7 | Detection / Analysis | Tier 2 | Confirmation that the file was successfully uploaded verifies the bucket was publicly accessible. This information feeds into the impact assessment conducted by the Tier 2 analyst following containment. |
 | Q8 | Detection / Analysis | Tier 1 & Tier 2 | Keywords must be correlated across multiple log sources by both Tier 1 and Tier 2 analysts to enrich alert data and improve detection accuracy. |
-| All Qs | Response (Containment / Eradication) | Tier 2 | Using findings from the detection and analysis phase, along with enriched data from Tier 1 analysts, the Tier 2 analyst must immediately implement a containment plan. This includes making the S3 bucket private and suspending leaked credentials to prevent further lateral movement. |
-| Q2, Q5 | Recovery | All Tiers | Tier 3 analysts lead recovery efforts by hardening the environment. This includes enforcing stricter IAM permissions and mandatory MFA to strengthen the organisation’s overall security posture. |
+| All Qs | Response (Containment / Eradication) | Tier 2 | Through the findings specifically from the detection/analysis phase and the enriched data provided by the Tier 1 analyst, the Tier 2 analyst must come up with a contaminant plan immediately to make the S3 bucket private again and suspend the use of leaked credentials to prevent further lateral movement from the attackers. |
+| Q2, Q5 | Recovery | All Tiers | The Tier 3 analyst will have to lead the efforts to harden the environment in the recovery phase. Enforcing stricter permissions, specifically the IAM policies and enforcing mandatory MFA to strengthen the companies security posture. |
 
 
 
 
 ## Installation & Data Preparation
 
-This guide outlines the process for installing Splunk Enterprise on an Ubuntu VM, applying a license, and ingesting the BOTSv3 dataset.
+I followed the steps below to install Splunk Enterprise on an Ubuntu VM, add the relevant license, and to install the BOTSv3 dataset.
 
 ### Splunk Installation
 
@@ -167,13 +170,13 @@ Used to investigate coin mining events occurring on Windows machines.
 
 | Time (Adjusted to UTC) | Event   | Evidence  |
 | --------               | ------- | -------   |
-| 09:16:55               | Bud receives an email notification from AWS Support alerting him of a compromise to an IAM user account: (web_admin). Due to him committing the access/ security keys to a public GitHub repository. The adversary gains initial access to AWS. | ![Initial compromise](<Timeline/timeline_aws_email_1.png>)|
-| 09:16:12 – 09:27:07    | Adversary reconnaissance: The attacker uses the leaked access key to make repeated attempts against IAM resources, generating numerous errors. |  ![Adversary reconnaissance](<Timeline/timeline_accesskey_attempts_2.png>)|
+| 09:16:55               | Bud receives an email notification from AWS Support alerting him of a compromise to an IAM user account: (web_admin). This was because he had committed the web_admin access key to a public GitHub repository.  The adversary gains initial access to AWS. | ![Initial compromise](<Timeline/timeline_aws_email_1.png>)|
+| 09:16:12 – 09:27:07    | Adversary reconnaissance: The attacker uses the leaked access key to make repeated attempts against IAM resources, generating causing lots of errors. |  ![Adversary reconnaissance](<Timeline/timeline_accesskey_attempts_2.png>)|
 | 13:01:46               | The user bstoll makes the S3 bucket: frothlywebcode publicly available through a misconfiguration. | ![S3 bucket set to public](<Timeline/bucket_set_public.png>)|
-| 13:03:46               | Data exfiltration/staging: A `txt` file (OPEN_BUCKET_PLEASE_FIX.txt) is uploaded by the attacker to confirm the S3 bucket is writable and publicly accessible. | ![.txt upload](<Timeline/txt_file_4.png>)|
-| 13:04:17               | Data Exfiltration/Staging: A large .tar.gz file is uploaded to the S3 bucket which is likely the main payload for the attack containing a miner. | ![Main payload upload](<Timeline/staging_file_5.png>)|
+| 13:03:46               | Data Ingress: A `txt` file (OPEN_BUCKET_PLEASE_FIX.txt) is uploaded by the attacker to confirm the S3 bucket is writable and publicly accessible before staging the main payload. | ![.txt upload](<Timeline/txt_file_4.png>)|
+| 13:04:17               | Data Ingress: A large .tar.gz file is uploaded to the S3 bucket which is likely the main payload for the attack containing a miner. | ![Main payload upload](<Timeline/staging_file_5.png>)|
 | 13:37:51                | The endpoint BSTOLL-L begins executing the payload and shows signs of coin mining activity with the CPU reaching 100% utilisation. | ![Main payload upload](<Timeline/cpu_utalisation_6.png>)|
-| 13:57:54               | The S3 bucket is made private again, closing the vulnerability. | ![S3 bucket made private](<Timeline/timeline_7.png>)|
+| 13:57:54               | The S3 bucket is made private again, closing the vulnerability. During the time the S3 bucket was public, no unauthorised downloads of existing data was identified in CloudTrail logs. | ![S3 bucket made private](<Timeline/timeline_7.png>)|
 
 ## Root Cause Analysis
 
@@ -181,7 +184,8 @@ The primary root cause of the incident is the AWS Secret Access key being expose
 
 The secondary root cause was caused by human error and the user bstoll again. After leaking the key, at 13:01:46, bstoll then made the ‘frothlywebcode’ S3 bucket publicly accessible. This allowed the adversary to upload files including malicious ones without any further authorisation, allowing them to stage attack tools for use later on.
 
-Although the incident is a direct consequence of the user: bstoll’s actions, the blame does not fall solely on him as preventative controls should have been in place to prevent these events from happening and having such a detrimental impact on business operations. The IAM user: web_admin which had administrative / high privilege access was not protected by MFA allowing the adversary to log in and make full use of the account without further authentication other than the username and access key. Where MFA was historically considered best practice, it’s now an expectation which needs to be adhered to in order to fully comply with many professional standards and frameworks such as ISO/IEC 27001, CIS Controls v8, and SOC 2 among others. [9] If MFA was mandatory the leaked credentials would have been useless to the attackers. Furthermore, no automated secret scanning tools (such as GitHub pre-commit hooks) were in place within the company. This safeguard would have prevented bstoll from committing the keys to a public repository. In addition to this configuration settings (AWS Account-level Block Public Access) could have been enabled which would have made it impossible for the S3 bucket to be set to public by bstoll preventing the attackers from being able to upload malicious payloads to the bucket.
+While triggered by user error, the impact was exacerbated by a lack of preventative controls. The IAM user: web_admin which had administrative / high privilege access, was not protected by MFA, allowing the adversary to log in and make full use of the account without further authentication other than the username and access key. Where MFA was historically considered best practice, it’s now an expectation which needs to be adhered to in order to fully comply with many professional standards and frameworks such as ISO/IEC 27001, CIS Controls v8, and SOC 2 among others. [9] If MFA was mandatory the leaked credentials would have been useless to the attackers. Furthermore, no automated secret scanning tools (such as GitHub pre-commit hooks) were in place within the company. This safeguard would have prevented bstoll from committing the keys to a public repository. In addition to this, configuration settings  such as AWS Account-level Block Public Access could have been enabled which would have made it impossible for the S3 bucket to be set to public by bstoll, preventing the attackers from being able to upload malicious payloads to the bucket.
+
 
 ## Key Indicators of Compromise (IOCs)
 
@@ -194,54 +198,72 @@ Although the incident is a direct consequence of the user: bstoll’s actions, t
 | **Malicious File (Deceptive):** `OPEN_BUCKET_PLEASE_FIX.txt` | ![txt file](<IOCs/txt_file.png>) |
 | **Malicious File (Main Payload):** `frothly_html_memcached.tar.gz` | ![tar .gz file](<IOCs/tar_gz_file.png>) |
 
-### Recovery Timeline
+## Recovery Timeline
 
 | Time (UTC) | Activity | Evidence |
 | :--- | :--- | :--- |
 | 13:57:54 | The exposed S3 bucket is set to private. | ![S3 bucket made private](<Timeline/bucket_set_false.png>) |
 | 14:05:23 | Mining process is terminated on BSTOLL-L endpoint. | ![mining terminated](<Timeline/mining_ends.png>) |
 
-After the incident is contained the malicious files should be eradicated from the system and the company should start recovery to return back to business as usual.
+After the incident is contained the malicious files should be eradicated from the system and the company should start recovery to return to business as usual.
 
 ### Suggested timeline for eradication and recovery:
 
 <ul>
-<li>14:30 - The malicious files: PEN_BUCKET_PLEASE_FIX.txt and frothly_html_memcached.tar.gz, the main payload should be deleted from the frothlywebcode S3 bucket.
+<li>14:30 - The malicious files: OPEN_BUCKET_PLEASE_FIX.txt and frothly_html_memcached.tar.gz, the main payload should be deleted from the frothlywebcode S3 bucket.
 <li>15:00 - The host: BSTOLL-L should be promptly isolated to prevent further cryptomining and lateral movement.
 <li>16:00 - CloudTrail logs should be reviewed for the 24-hour window to ensure no other backdoors (like new IAM users) were created.
 <li>The following day - BAU, Automated deployments and pipeline should be re-enabled.
 </ul>
 
-### Coin Mining 
+## Coin Mining 
 
 The second large payload uploaded to the misconfigured S3 bucket contained a large .tar.gz file which contained coin mining software. Initially browsers on internal endpoints (specifically the endpoint BSTOLL-L was the most heavily affected) were leveraged to run JavaScript-based miners. The infected processes spiked to 100% CPU utilisation, impacting system performance. The endpoint BRUN-L was also compromised although can be seen to block the execution of the mining through SEP. The miners established persistent connections to the Coinhive mining pool (a common browser-based service used to facilitate 'cryptojacking' by pooling the CPU resources of unauthorised hosts). This activity significantly increased the severity of the incident as it also compromised corporate laptops like BSTOLL-L and BTUN-L, the attacker forced Frothly to spin up high-performance EC2 instances to run the miners which are expensive to run.<br>
 
 This increases the severity of the incident and the business impact significantly as it resulted in direct financial theft via inflated AWS service costs and indirect revenue loss through increased site latency due to heavy service load.
 
+ ![miner communicating](<Mining/miner_communication.png>)<br>
+ ![miner blovked](<Mining/coin_miner_blocked.png>)
+
+ 
+## Recommendations 
+
+Immediate steps:
+<ul>
+<li> Enforce mandatory MFA for all IAM users and disable API calls that aren’t authenticated by MFA.
+<li> Activate the S3 "Block Public Access" feature at the account level to prevent any bucket from being made public, regardless of individual bucket policies.
+<li> Deploy GuardDuty to detect compromised and exfiltrated AWS credentials and unauthorised cryptomining activity. [10]
+</ul>
+
+Medium-term:
+<ul>
+<li> Implement automated secret scanning tools (such as GitHub pre-commit hooks) into CI/CD pipelines to block commits which contain AWS Secret Keys.
+<li> Transition to temporary, rotating security tokens by using IAM Roles/Instance Profiles for EC2, instead of static Access Keys. 
+<li> Undertake company-wide mandated security awareness training focused on credential handling.
+</ul>
 
 ## Conclusion
 
 This analysis of the BOTSv3 Frothly incident demonstrates how human error and insufficient preventative security controls can escalate rapidly. The incident was caused when a user published a highly privileged AWS access key to a public GitHub repository which enabled malicious attackers to gain legitimate, administrative access to Frothly’s cloud environment. A subsequent configuration error exacerbated the vulnerability when an S3 bucket was made public allowing for malicious uploads. The lack of security failsafes allowed these two accounts of human error to become a major security incident.
 
+#### Lessons Learnt:
+<ul>
+<li> MFA is crucial - With Multi-Factor Authentication in place and properly enforced the leaked credentials would not be able to be used by the attackers.
+<li> Log correlation - Correlating CloudTrail logs with endpoint activity within the SIEM (Splunk) allowed the SOC team to be fully aware of the extent of the multi-vector attack. 
+</ul>
+
+From a SOC perspective, the incident highlights the importance of defence-in-depth and demonstrates the critical role that each tier of analyst in the SOC plays throughout the incident lifecycle. The SOC must shift their stance from reactive to a more proactive, automated one to keep up with the ever increasing complexity and volume of security threats and also to comply with modern security standards. <br>
+
+A key aim for the company should be to enhance education for the DevOps team around security threats and secure working practices. A security first approach and better integration and communication between DevOps and the SOC itself would harden security within the organisation. <br>
+
+In conclusion, this incident has highlighted the gaps in the current security posture which need to be addressed with a more proactive approach. It should also be mentioned that the SOC’s quick action reduced the potential business impact of the incident to moderate as operations were only impacted for one day.
+
+
 ## References 
 
-06/12 <br>
-[1] https://www.microsoft.com/en-us/security/business/security-101/what-is-a-security-operations-center-soc <br>
-[2] https://radiantsecurity.ai/learn/soc-tier-1-vs-tier-2-vs-tier-3/  <br>
-[3] https://www.crowdstrike.com/en-us/cybersecurity-101/next-gen-siem/security-operations-center-soc/ <br>
-07/12 <br>
-[4]  https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-61r2.pdf <br>
-[5] https://www.cynet.com/incident-response/nist-incident-response/ <br>
-[6] https://www.crowdstrike.com/en-gb/cybersecurity-101/incident-response/incident-response-steps/ <br>
-12/12 <br>
-[7] https://www.ibm.com/think/topics/security-operations-center <br>
-15/12 <br>
-[8] https://pushsecurity.com/blog/how-cyber-breaches-are-driving-tighter-mfa-requirements-and-enforcement/ <br>
-22/12 <br>
-[9] https://auditboard.com/blog/nist-incident-response 
 
 [1] “What is a Security Operations Center (SOC)?,” Microsoft Security, https://www.microsoft.com/en-us/security/business/security-101/what-is-a-security-operations-center-soc (accessed Dec. 6, 2025). <br>
-[2] “SOC analyst Tier 1 vs. tier 2 vs. tier 3: Key differences,” Radiant Security, https://radiantsecurity.ai/learn/soc-tier-1-vs-tier-2-vs-tier-3/ (accessed Dec. 6, 2025). <br>
+[2] “SOC analyst Tier 1 vs. Tier 2 vs. Tier 3: Key differences,” Radiant Security, https://radiantsecurity.ai/learn/soc-Tier-1-vs-Tier-2-vs-Tier-3/ (accessed Dec. 6, 2025). <br>
 [3] “What is a security operations center? [SOC security guide],” CrowdStrike, https://www.crowdstrike.com/en-us/cybersecurity-101/next-gen-siem/security-operations-center-soc/ (accessed Dec. 6, 2025). <br>
 [4] “NIST Incident Response Guide: Lifecycle, Best Practices & Recovery,” Audit, Compliance, & Risk Management Software, https://auditboard.com/blog/nist-incident-response (accessed Dec. 22, 2025). <br>
 [5] Date updated: April 3, 2025 withdrawn NIST Technical Series publication, https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-61r2.pdf (accessed Dec. 7, 2025). <br>
