@@ -1,6 +1,6 @@
 # Frothly BOTSV3 Incident Analysis
 
-<b>YouTube Video to assist with evidence:</b>
+<b>YouTube Video to assist with evidence: https://youtu.be/Qy79LXoBfL0</b>  [![Watch the video](https://img.youtube.com/vi/Qy79LXoBfL0/hqdefault.jpg)](https://www.youtube.com/watch?v=Qy79LXoBfL0)
 
 ## Introduction
 
@@ -176,7 +176,7 @@ Used to investigate coin mining events occurring on Windows machines.
 | 13:03:46               | Data Ingress: A `txt` file (OPEN_BUCKET_PLEASE_FIX.txt) is uploaded by the attacker to confirm the S3 bucket is writable and publicly accessible before staging the main payload. | ![.txt upload](<Timeline/txt_file_4.png>)|
 | 13:04:17               | Data Ingress: A large .tar.gz file is uploaded to the S3 bucket which is likely the main payload for the attack containing a miner. | ![Main payload upload](<Timeline/staging_file_5.png>)|
 | 13:37:51                | The endpoint BSTOLL-L begins executing the payload and shows signs of coin mining activity with the CPU reaching 100% utilisation. | ![Main payload upload](<Timeline/cpu_utalisation_6.png>)|
-| 13:57:54               | The S3 bucket is made private again, closing the vulnerability. During the time the S3 bucket was public, no unauthorised downloads of existing data was identified in CloudTrail logs. | ![S3 bucket made private](<Timeline/timeline_7.png>)|
+| 13:57:54               | The S3 bucket is made private again, closing the vulnerability. During the time the S3 bucket was public, no unauthorised downloads or deletions of existing data was identified in CloudTrail logs. | ![S3 bucket made private](<Timeline/timeline_7.png>) ![no unauthorised download](<Timeline/no_unauthorised_downloads.png>) ![no data deleted](<Timeline/files_not_deleted.png>)|
 
 ## Root Cause Analysis
 
@@ -225,7 +225,7 @@ This increases the severity of the incident and the business impact significantl
  ![miner communicating](<Mining/miner_communication.png>)<br>
  ![miner blovked](<Mining/coin_miner_blocked.png>)
 
- 
+
 ## Recommendations 
 
 Immediate steps:
