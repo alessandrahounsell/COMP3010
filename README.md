@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This report documents the simulated security incident within the fictional brewing company named 'Frothly' on the 20th August 2018. In this writeup I will be analysing the collections of logs provided in the publicly available dataset BOTSV3 to investigate the attack following the cyber kill chain methodology.
+This report documents the simulated security incident within the fictional brewing company named 'Frothly' on the 20th August 2018. In this writeup I will be analysing the collections of logs provided in the publicly available dataset BOTSV3 to investigate the attack following the cyber kill chain methodology. This report is a summary aimed at informing high level stakeholders of the incident’s details.
 
 ### Objectives:
 <ol>
